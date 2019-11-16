@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用属性绑定为元素设置class样式</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+        .thin {
+            font-weight: 200;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .active {
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用属性绑定为元素添加class样式 -->
+        <!-- 1. 使用数组,用单引号将类名包起来,可以使用三元表达式-->
+        <h1 :class="['red', 'thin', 'italic', flag ? 'active' : '']">this is h1 title</h1>
+        <!-- 2.数组中嵌套对象使用对象来替换三元表达式 -->
+        <h1 :class="['red', 'thin', 'italic', {'active' : flag}]">this is h1 title</h1>
+        <!-- 3.直接使用对象{类名:标识符...} 标识符也可以使用vue对象中的数据-->
+        <h1 :class="{red:flag, thin:flag, italic:flag, active:flag}">this is h1 title</h1>
+        <!-- 3.1.在vue对象中定义这个样式的对象然后在引用-->
+        <h1 :class="classObj">this is h1 title</h1>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                flag: true,
+                classObj: {
+                    red: true,
+                    thin: true,
+                    italic: true,
+                    active: true
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>

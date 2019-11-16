@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="action">开始</button>
+        <button @click="stop">暂停</button>
+        <h4>{{ msg }}</h4>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: '123456789',
+                internalId: null
+            },
+            methods: {
+                action() {
+                    if (this.internalId != null) return;
+                    this.internalId = setInterval( () => {
+                        const startStr = this.msg.substring(0, 1);
+                        const endStr = this.msg.substring(1);
+                        this.msg = endStr + startStr;
+                    }, 400)
+                },
+                stop() {
+                    clearInterval(this.internalId);
+                    this.internalId = null;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

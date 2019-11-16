@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue基本指令</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 在标签内使用{{ }}传值表达式来绑定vue对象内的数据 -->
+        {{}}：<span>这是传值表达式: {{ msg }}</span>
+        <br><br>
+        <!-- 使用v-cloak指令可已解决闪烁问题 -->
+        v-cloak: <span v-cloak>{{ msg }}</span>
+        <br><br>
+        <!--
+            v-text和传值表达式一样可以在标签绑定vue对象的数据
+            二者的区别在于传值表达式可以用其他的字符串与{{}}进行拼接,但是会有闪烁问题
+            v-text不能进行拼接,v-text的内容会覆盖之前标签的内容,但是不会有闪烁问题
+        -->
+        v-text: <span v-text="msg"></span>
+        <br><br>
+        <!-- v-html能解析数据内的html标签,但是传值表达式与v-text不行 -->
+        v-html: <span v-html="html"></span>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Hello Vue',
+                html: '<h1>this is H1 title</h1>'
+            }
+        })
+    </script>
+</body>
+</html>

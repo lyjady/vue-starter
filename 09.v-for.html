@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 循环数组 -->
+        <p v-for="item in list">{{ item }}</p>
+        <!-- 循环数组并显示索引 -->
+        <p v-for="(item, index) in list">索引: {{ index }} -- 内容: {{ item }}</p>
+        <!-- 迭代对象(key就是index) -->
+        <p v-for="(user, index) in users">索引: {{ index }} -- id: {{ user.id }} -- name: {{ user.name }}</p>
+        <!-- 迭代单个对象 -->
+        <p v-for="(val, key, index) in heroes">索引: {{ index }} -- val: {{ val }} -- key: {{ key }}</p>
+        <!-- 迭代数字(如果迭代数字的话count从1开始) -->
+        <p v-for="count in 10">这是第{{ count }}次循环</p>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [1, 2, 3, 4, 5, 6],
+                users: [
+                    {id: 1, name: 'zs1'},
+                    {id: 2, name: 'zs2'},
+                    {id: 3, name: 'zs3'},
+                    {id: 4, name: 'zs4'}
+                ],
+                heroes: {
+                    name: 'IronMan',
+                    age: 28,
+                    gender: '男'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

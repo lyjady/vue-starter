@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用属性绑定为元素设置内联样式</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 1.直接在v-bind:style中写样式对象 -->
+        <h1 :style="{color: 'red'}">this is h1 title</h1>
+        <!-- 2.将样式对象定义到data中,引用如果样式的名称带有-则需要用单引号包裹 -->
+        <h1 :style="styleObj1">this is h1 title</h1>
+        <!-- 3.在data中定义多个央样式对象,在元素内用数组引用 -->
+        <h1 :style="[styleObj1, styleObj2]">this is h1 title</h1>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                styleObj1: {color: 'red', 'font-size': '100px'},
+                styleObj2: {'font-style': 'italic'}
+            }
+        })
+    </script>
+</body>
+</html>

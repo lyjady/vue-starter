@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind与v-on</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind能够将vue对象的属性数据绑定到dom上,v-bind:属性="需要绑定的data",也可以直接简写成 :属性="需要绑定的data" -->
+        v-bind: <span :title="message">v-bind属性绑定</span>
+        <br><br>
+        <!-- v-on能为dom绑定事件 v-on:事件名="执行的函数" 也可以简写成@事件名="执行的函数" -->
+        v-on: <button @click="show">点击</button>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: 'b-bind属性绑定'
+            },
+            methods: {
+                show() {
+                    alert("show method");
+                }
+            }
+        })
+    </script>
+</body>
+</html>
