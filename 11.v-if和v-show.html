@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-if和v-show</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-if每次都会删除或者重新创建元素,有较高的切换性能消耗,如果涉及频繁切换最好不要使用v-if -->
+        <h1 v-if="flag">v-if</h1>
+        <!-- v-show不会删除或者创建元素,只是切换元素的display: none样式,有着较高的初始渲染消耗,如果元素永远不会显示出来呗圆用户看到不要使用v-show -->
+        <h1 v-show="flag">v-show</h1>
+        <button @click="toggleFlag">切换</button>
+    </div>
+    <script>
+        const app = new Vue({
+           el: '#app',
+           data: {
+               flag: true
+           },
+           methods: {
+               toggleFlag() {
+                   this.flag = !this.flag;
+               }
+           }
+        });
+    </script>
+</body>
+</html>

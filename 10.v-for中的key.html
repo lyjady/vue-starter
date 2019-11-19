@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for中的key.html</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="id" placeholder="请输入id">
+        <input type="text" v-model="name" placeholder="请输入name">
+        <input type="button" @click="add" value="添加">
+        <p v-for="(user, index) in list" :key="user.id">
+            <input type="checkbox">
+            {{ index + 1 }} {{ user.name }}
+        </p>
+    </div>
+    <script>
+        var app = new Vue({
+           el: '#app',
+           data: {
+               list: [
+                   {id: 1, name: '阿塔尼斯'},
+                   {id: 2, name: '凯瑞甘'},
+                   {id: 3, name: '吉姆雷诺'}
+               ],
+               id: '',
+               name: ''
+           },
+            methods: {
+               add() {
+                   const newUser = {id: this.id, name: this.name};
+                   this.list.unshift(newUser);
+               }
+            }
+        });
+    </script>
+</body>
+</html>
