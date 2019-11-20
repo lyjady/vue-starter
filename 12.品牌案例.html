@@ -59,9 +59,13 @@
            },
             methods: {
                add() {
-                   const phone = {id: this.id, name: this.name, time: new Date().toLocaleString()};
-                   this.phoneList.push(phone);
-                   this.id = this.name = '';
+                   if (this.id != null && this.id !== '' && this.name !== '' && this.name != null) {
+                       const phone = {id: this.id, name: this.name, time: new Date().toLocaleString()};
+                       this.phoneList.push(phone);
+                       this.id = this.name = '';
+                   } else {
+                       console.log("id和name不能为空");
+                   }
                },
                 del(id) {
                     console.log(id);
