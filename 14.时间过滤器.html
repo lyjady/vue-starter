@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间过滤器</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ date | dateFormat }}
+    </div>
+    <script>
+
+        //设置形参的默认值
+        Vue.filter('dateFormat', function (date, pattern = '') {
+            const dt = new Date(date);
+
+            const y = dt.getFullYear();
+            const m = (dt.getMonth() + 1).toString().padStart(2, '0');
+            const d = dt.getDate().toString().padStart(2, '0');
+            const h = dt.getHours().toString().padStart(2, '0');
+            const mi = dt.getMinutes().toString().padStart(2, '0');
+            const s = dt.getSeconds().toString().padStart(2, '0');
+
+            if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+                return y + '-' + m + "-" + d;
+            } else {
+                return y + '-' + m + "-" + d + ' ' + h + ':' + mi + ':' + s;
+            }
+        });
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                date: new Date()
+            }
+        })
+    </script>
+</body>
+</html>

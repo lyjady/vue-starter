@@ -19,9 +19,15 @@
                 </label>
                 <label>
                     Name:
-                    <input type="text" v-model="name">
+                    <!-- 添加按键事件,按下Enter进行添加 -->
+                    <!-- 如果要自定义按键的话需要在js中自定义按键修饰符 -->
+                    <input type="text" v-model="name" @keyup.enter="add">
                 </label>
                 <input type="button" class="btn btn-primary" @click="add" value="添加">
+                <label>
+                    请输入要搜索的内容:
+                    <input type="text" v-model="keyword" v-focus v-color="'skyblue'">
+                </label>
             </div>
         </div>
         <table class="table table-hover table-bordered table-striped">
@@ -34,10 +40,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(phone, index) in phoneList" :key="phone.id">
+                <tr v-for="(phone, index) in search()" :key="phone.id">
                     <td>{{ phone.id }}</td>
                     <td>{{ phone.name }}</td>
-                    <td>{{ phone.time }}</td>
+                    <td>{{ phone.time | dateFormat }}</td>
                     <td>
                         <a href="javascript:void(0)" @click.prevent="del(phone.id)">删除</a>
                     </td>
@@ -46,21 +52,55 @@
         </table>
     </div>
     <script>
+
+        //自定义全局修饰符(Vue.config.KeyCodes.自定义修饰符的名称 = 对应按键的号码)
+        Vue.config.keyCodes.f3 = 114;
+
+        //自定义指令(Vue.directive(指令的名称, 对象(一些指令相关的回调函数)))
+        Vue.directive('focus', {
+            //第一个参数是绑定的元素是js原生对象
+            //当指定与元素绑定的时候执行(在内存中。一般用来设置样式)
+            bind(el) {
+
+            },
+            //当元素插入到Dom中时执行,一般用来设置js行为(因为这些行为不能在内存中执行需要在页面中执行)
+            inserted(el) {
+                el.focus();
+            },
+            //当Vnode更新的时候执行
+            updated(el) {
+
+            }
+        });
+
+        Vue.directive('color', {
+            //第二个参数是一个对象包含了一些属性
+            //name: 指令名(不包含v-前缀)
+            //value: 指令的绑定值(运算之后的结果)
+            //oldValue: 指令绑定的前一个值,尽在update和componentUpdated钩子中使用
+            //expression: 绑定值的字符串形式,绑定值写什么就是什么
+            //arg: 给指令传的参数(v-color:foo)arg就是foo
+            bind(el, binding) {
+                el.style.color = binding.value;
+            }
+        });
+
         const app = new Vue({
            el: '#app',
            data: {
                id: '',
                name: '',
+               keyword: '',
                phoneList: [
-                   {id: 1, name: "iPhone Xs", time: new Date().toLocaleString()},
-                   {id: 2, name: "iPhone Xs Max", time: new Date().toLocaleString()},
-                   {id: 3, name: "iPhone 11 Pro", time: new Date().toLocaleString()},
+                   {id: 1, name: "iPhone Xs", time: new Date()},
+                   {id: 2, name: "iPhone Xs Max", time: new Date()},
+                   {id: 3, name: "iPhone 11 Pro", time: new Date()},
                ]
            },
             methods: {
                add() {
                    if (this.id != null && this.id !== '' && this.name !== '' && this.name != null) {
-                       const phone = {id: this.id, name: this.name, time: new Date().toLocaleString()};
+                       const phone = {id: this.id, name: this.name, time: new Date()};
                        this.phoneList.push(phone);
                        this.id = this.name = '';
                    } else {
@@ -87,6 +127,34 @@
                         }
                     }));
                     this.phoneList.splice(index, 1);
+                },
+                search() {
+                    //forEach循环
+                   //const newList = [];
+                    // this.phoneList.forEach(item => {
+                    //     if (item.name.indexOf(this.keyword) >= 0) {
+                    //         newList.push(item);
+                    //     }
+                    // });
+
+                    //filter循环
+                    return this.phoneList.filter(item => {
+                        if (item.name.includes(this.keyword)) {
+                            return item;
+                        }
+                    });
+                },
+            },
+            filters: {
+                dateFormat: function (dateStr) {
+                    const date = new Date(dateStr);
+                    const year = date.getFullYear();
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const hour = date.getHours().toString().padStart(2,'0');
+                    const minute = date.getMinutes().toString().padStart(2,'0');
+                    const seconds = date.getSeconds().toString().padStart(2,'0');
+                    return year + '-' + month + "-" + day + ' ' + hour + ':' + minute + ':' + seconds;
                 }
             }
         });

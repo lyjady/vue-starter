@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器的使用</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ message | strFilter('短', '123') | test}}
+    </div>
+
+    <div id="app2">
+        {{ message + ' ' | strFilter}}
+    </div>
+    <script>
+        //定义全局过滤器,在插值表达式中直接{{ message | 过滤器的名称}}
+        //第一个参数是定义过滤器的名称,第二个参数是过滤器的实现,实现中的第一个参数是要过滤的信息,可以传递多个参数
+        Vue.filter('strFilter', function (message, arg, arg2) {
+            return message.replace(/长/g, arg + arg2);
+        });
+
+        //可以设置多个过滤器形成过滤器链
+        Vue.filter('test', function (message) {
+            return message + '============';
+        });
+        const app = new Vue({
+           el: '#app',
+           data: {
+               message: "这是一个句很长很长很长的话"
+           }
+        });
+
+        //私有过滤器,之前定义的是全局过滤器每个Vue实例都能调用.
+        //在Vue实例内部也能定义过滤器。这种过滤器就是私有过滤器。
+        //私有过滤器的名称可以和全局的一样,这样根据就近原则如果元素调用的过滤器在相应的实例中有用到那么就优先使用私有过滤器
+        const app2 = new Vue({
+            el: '#app2',
+            data: {
+                message: '这是App2'
+            },
+            filters: {
+                strFilter: function (message) {
+                    return message + "这是私有过滤器";
+                }
+            }
+        })
+    </script>
+</body>
+</html>

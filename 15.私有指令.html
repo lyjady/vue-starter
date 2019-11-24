@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>私有指令</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <span v-fontsize="90" v-fontweight v-color>{{ message }}</span>
+    </div>
+    <script>
+        Vue.directive('fontsize', {
+            bind(el) {
+                el.style.fontSize = '10px';
+            }
+        });
+
+        //全局指令的简写格式
+        Vue.directive('color', function (el) {
+           el.style.color = 'red';
+        });
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: '私有指令'
+            },
+            //私有指令和私有过滤器一样如果名字一样采用就近原则
+            directives: {
+                'fontsize': {
+                    bind: function (el, binding) {
+                        el.style.fontSize = parseInt(binding.value) + 'px';
+                    }
+                },
+                //指令简写(等同于将指令写到bind与updated中去)
+                'fontweight': function (el) {
+                    el.style.fontWeight = '900';
+                }
+            }
+        })
+    </script>
+</body>
+</html>
