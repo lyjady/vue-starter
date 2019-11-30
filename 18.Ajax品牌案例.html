@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax品牌案例</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌添加</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    <span>手机名称:</span>
+                    <input type="text" class="form-control" placeholder="请输入要添加的手机名称" v-model="name">
+                </label>
+                <label>
+                    <span>售价:</span>
+                    <input type="text" class="form-control" placeholder="请输入要添加手机的售价" v-model="price">
+                </label>
+                <input type="button" class="btn btn-primary" value="添加" @click="add">
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>售价</th>
+                    <th>发售时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in list" :key="item.id">
+                    <td>{{ index + 1}}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.time | dateFormat}}</td>
+                    <td>
+                        <a href="javascript:void(0)" @click.prevent="remove(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        //配置api根路径
+        Vue.http.options.root = 'http://127.0.0.1:8080/';
+        //全局的emulateJson配置
+        // Vue.http.options.emulateJson = true;
+        Vue.filter('dateFormat', function (dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const hour = date.getHours().toString().padStart(2,'0');
+            const minute = date.getMinutes().toString().padStart(2,'0');
+            const seconds = date.getSeconds().toString().padStart(2,'0');
+            return year + '-' + month + "-" + day + ' ' + hour + ':' + minute + ':' + seconds;
+        });
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [],
+                name: '',
+                price: ''
+            },
+            methods: {
+                getList() {
+                    this.$http.get('getAll').then(response => {
+                        if (response.status === 200) {
+                            this.list = response.body;
+                        }
+                    })
+                },
+                add() {
+                    const phone = {
+                        name: this.name,
+                        price: this.price
+                    };
+                    this.$http.post('add', JSON.stringify(phone), {emulateJson: true}).then(response => {
+                        if (response.status === 200) {
+                            this.getList();
+                        }
+                    });
+                    this.name = this.price = '';
+                },
+                remove(id) {
+                    this.$http.get('remove?id=' + id).then(response => {
+                        if (response.status === 200) {
+                            const index = this.list.findIndex((phone => {
+                                if (phone.id === id) {
+                                    return true;
+                                }
+                            }));
+                            this.list.splice(index, 1);
+                        }
+                    })
+                }
+            },
+            created() {
+                this.getList();
+            }
+        })
+    </script>
+</body>
+</html>

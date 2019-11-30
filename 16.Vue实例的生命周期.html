@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例的生命周期</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ message }}
+        <input type="button" value="改变" @click="message='new'">
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: "old"
+            },
+            methods: {
+                show() {
+                    console.log("show method");
+                }
+            },
+            beforeCreate() {
+                //在Vue实例完全被创建之前会执行他,此时只用默认的生命周期函数与默认的事件,其他东西并没有被创建
+                console.log(this.message);
+                this.show();
+                console.log("======================");
+            },
+            created() {
+                //此时实例中的数据已经被初始化好了
+                console.log(this.message);
+                this.show();
+                console.log("======================");
+            },
+            beforeMount() {
+                //执行此函数时只是在内存中生成了Dom但是并没有挂载到页面中去,页面上的数据还是html中的数据
+                console.log(document.getElementById("app").innerText);
+                console.log("======================");
+            },
+            mounted() {
+                //将内存中的Dom挂载到页面上,此时也说明组件从创建阶段进入到了运行阶段
+                console.log(document.getElementById("app").innerText);
+                console.log("======================");
+            },
+            beforeUpdate() {
+                //当vue中的数据发生改变的时候触发这个生命周期函数,此时vue中的数据是最新的但是页面中的数据并没有和vue中的数据进行同步
+                console.log(document.getElementById("app").innerText);
+                console.log("======================");
+            },
+            updated() {
+                //此时页面中的数据与vue中的数据已经是同步的了
+                console.log(document.getElementById("app").innerText);
+            }
+        })
+    </script>
+</body>
+</html>
