@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第三方animate来实现动画</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/animate.css">
+</head>
+<body>
+    <div id="app">
+
+        <input type="button" value="动画" @click="flag1=!flag1">
+        <!-- bounceIn入场的类, bounceOut出场的类 在这个基础上要加上animate这个基础类, 也可以将animate这个基础类加到要动画的元素上去-->
+        <!-- :duration统一设置设置动画的时间, 单位毫秒-->
+        <!-- 可以使用对象的方式来分别设置入场和离场的时间 duration="{enter: 200, leave: 1000} -->
+        <transition enter-active-class="animate bounceIn" leave-active-class="animate bounceOut" :duration="{enter: 200, leave: 400}">
+            <h3 v-if="flag1">this is a h3 tag</h3>
+        </transition>
+
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                flag1: false,
+                flag2: false
+            }
+        })
+    </script>
+</body>
+</html>

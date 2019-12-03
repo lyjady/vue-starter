@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表添加删除时过渡动画</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+    <style>
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.8s ease;
+        }
+
+        /* 设置离开的样式需要给.v-leave-active加上position: absolute这个样式.这是固定写法 */
+        /* 能够实现列表后续的元素渐渐飘上来的动画 */
+        .v-move {
+            transition: all 0.6s ease;
+        }
+
+        .v-leave-active {
+            position: absolute;
+        }
+
+        li:hover {
+            background-color: skyblue;
+            transition: all 0.4s ease;
+        }
+
+        li {
+            border: 1px dashed #999999;
+            margin: 5px;
+            line-height: 35px;
+            padding-left: 5px;
+            font-size: 12px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div>
+        <label>
+            id:
+            <input type="text" v-model="id">
+        </label>
+        <label>
+            name:
+            <input type="text" v-model="name">
+        </label>
+        <input type="button" value="添加" @click="add">
+    </div>
+        <!-- 如果v-for渲染出来的元素要实现动画那么需要使用transition-group这个标签包裹起来,并且要指定一个ke-->
+        <!-- appear属性可以让整个元素有个渐渐飘上来的入场的效果 -->
+        <!-- 浏览器在解析transition-group这个标签的时候会解析成span标签,这样就是在span标签内部添加了li这样的块元素不符合w3c的规定 -->
+        <!-- 可以使用tag标签指定替换的标签 -->
+    <transition-group appear tag="ul">
+        <li v-for="(item, index) in list" :key="item.id" @click="remove(index)">
+            {{ item.id }} --- {{ item.name }}
+        </li>
+    </transition-group>
+</div>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            list:[
+                {id: 1, name: "a"},
+                {id: 2, name: "b"},
+                {id: 3, name: "c"},
+            ],
+            id: '',
+            name: ''
+        },
+        methods: {
+            add() {
+                this.list.push({id: this.id, name: this.name});
+                this.id = this.name = "";
+            },
+            remove(index) {
+                this.list.splice(index, 1);
+            }
+        }
+    })
+</script>
+</body>
+</html>
