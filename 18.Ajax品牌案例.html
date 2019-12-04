@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Ajax品牌案例</title>
     <script src="js/vue.js"></script>
-    <script src="js/vue-resource.js"></script>
+    <script src="js/axios.js"></script>
     <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
 </head>
 <body>
@@ -52,7 +52,7 @@
     </div>
     <script>
         //配置api根路径
-        Vue.http.options.root = 'http://127.0.0.1:8080/';
+        axios.defaults.baseURL = 'http://127.0.0.1:8080/';
         //全局的emulateJson配置
         // Vue.http.options.emulateJson = true;
         Vue.filter('dateFormat', function (dateStr) {
@@ -74,26 +74,34 @@
             },
             methods: {
                 getList() {
-                    this.$http.get('getAll').then(response => {
+                    axios.get('/getAll').then(response => {
                         if (response.status === 200) {
-                            this.list = response.body;
+                            this.list = response.data;
                         }
                     })
                 },
                 add() {
-                    const phone = {
-                        name: this.name,
-                        price: this.price
-                    };
-                    this.$http.post('add', JSON.stringify(phone), {emulateJson: true}).then(response => {
+                    axios({
+                        url: 'add',
+                        method: 'post',
+                        data: JSON.stringify({
+                            name: this.name,
+                            price: this.price
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => {
                         if (response.status === 200) {
                             this.getList();
                         }
-                    });
-                    this.name = this.price = '';
+                    })
                 },
                 remove(id) {
-                    this.$http.get('remove?id=' + id).then(response => {
+                    axios({
+                        url: 'remove?id=' + id,
+                        method: 'get'
+                    }).then(response => {
                         if (response.status === 200) {
                             const index = this.list.findIndex((phone => {
                                 if (phone.id === id) {
