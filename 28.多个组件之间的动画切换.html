@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>多个组件之间的动画切换</title>
+        <script src="js/vue.js"></script>
+        <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+        <style>
+            .v-enter, .v-leave-to {
+                opacity: 0;
+                transform: translateX(150px);
+            }
+
+            .v-enter-active, .v-leave-active {
+                transition: all 0.8s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <button class="btn btn-danger" @click="toggle('login')">登录</button>
+            <button class="btn btn-danger" @click="toggle('register')">注册</button>
+            <button class="btn btn-danger" @click="toggle('exit')">二维码</button>
+            <!-- component是一个占位符标签被是将要切换的组件,:is是指定显示的组件的名称 -->
+            <!-- 使用transition将替换的组件包起来,并制定切换的动画样式,就能实现组件的动画切换用mode苏属性设置切换的顺序out-in代表先离开再进入 -->
+            <transition mode="out-in">
+                <component :is="componentName">
+                    <login></login>
+                    <register></register>
+                    <exit></exit>
+                </component>
+            </transition>
+        </div>
+        <template id="loginTemp">
+            <h3>Login Component</h3>
+        </template>
+        <template id="registerTemp">
+            <h3>Register Component</h3>
+        </template>
+        <template id="exitTemp">
+            <h3>Exit Component</h3>
+        </template>
+        <script>
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    flag: true,
+                    componentName: 'login'
+                },
+                methods: {
+                    toggle(componentName) {
+                        this.componentName = componentName;
+                    }
+                },
+                components: {
+                    login: {
+                        template: '#loginTemp'
+                    },
+                    register: {
+                        template: '#registerTemp'
+                    },
+                    exit: {
+                        template: '#exitTemp'
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义组件</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 组件化与模块化的区别 -->
+        <!-- 模块化: 是从代码逻辑的角度进行划分将相同的逻辑的代=代码进行封装 -->
+        <!-- 组件化: 从UI界面的角度进行划分,将相同的页面划分为一个模块 -->
+        <!-- 组件是为了拆分Vue实例的代码量,能让我们以不同的组件来划分不同的功能模块,我们需要什么样的功能就去调用什么样的组件就行了 -->
+        <comp1></comp1>
+        <comp2></comp2>
+        <comp2.1></comp2.1>
+        <comp3></comp3>
+    </div>
+    <template id="temp1">
+        <h3>这是构建组件的第三种方式</h3>
+    </template>
+    <script>
+        //第一种构建组件的方式
+        const component = Vue.extend({
+            //这是组件的内容,Vue中的组件内容必须只能拥有一个根标签
+            template: '<h3>这是第一种构建组件的方式</h3>'
+        });
+        //第一个参数是组件的名称,第二个参数是组件的实例
+        //在页面中之间将组件的名称作为html标签就能引用组件,如果组件的命名是用驼峰方式进行命名那么在html标签中就要将大写变成小写,并用-来连接单词
+        Vue.component('comp1', component);
+
+        //第二种构建组件的方式
+        Vue.component('comp2', Vue.extend({
+            template: '<h3>这是第二种构建组件的方式</h3>'
+        }));
+
+        Vue.component('comp2.1', {
+            template: '<div>' +
+                        '<h3>这是第二种构建组件的方式的另一种方式</h3>' +
+                        '<h3>组件内只能有一个根元素</h3>' +
+                        '<span>1235</span>' +
+                      '</div>'
+        });
+
+        //第三种构建组件的方式
+        //第一个参数依旧还是在html引用组件的标签名,第二个参数指定一个id,html加上template标签并给于之前指定的id
+        //在template中编写组件的内容,只有在页面中引用
+        Vue.component('comp3', {
+            template: '#temp1'
+        });
+
+        const app = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

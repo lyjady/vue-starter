@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件中的data</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <comp1></comp1>
+        <hr>
+        <comp2></comp2>
+        <hr>
+        <comp2></comp2>
+        <hr>
+        <comp2></comp2>
+    </div>
+
+    <template id="temp1">
+        <h3>{{ message }}</h3>
+    </template>
+
+    <template id="temp2">
+        <div>
+            <input type="button" class="btn btn-primary" value="+1" @click="num++">
+            <h3>{{ num }}</h3>
+        </div>
+    </template>
+    <script>
+        //组件中的data必须定义成一个function,并且返回值必须是一个对象
+        Vue.component('comp1', {
+            template: '#temp1',
+            data() {
+                return {message: '这是组件中的data'}
+            }
+        });
+
+        const data = {num: 0};
+
+        //组件中data数据return的对象必须是组件内部自定义的,如果是用外部的对象的话那么如果在引用了多个该组件并且对对象的data进行操作
+        //那么这些组件的data将会共享,如果是组件内自定义的那么将不共享
+        //这就像Java中的静态变量与成员变量一样
+        //静态变量一旦改变全部该实对象的实例里面的都会改变,但是成员变量当前的对象改变了并不影响其他该类的实例对象
+        Vue.component('comp2', {
+            template: '#temp2',
+            // data() {
+            //     return data;
+            // }
+            data() {
+                return {
+                    num: 0
+                }
+            }
+        });
+        const app = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件之间的切换v-if和v-else</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 使用v-if和v-else只能实现两个组件之间的切换,不能实现多个组件之间的切换 -->
+        <button class="btn btn-danger" @click="flag=true">登录</button>
+        <button class="btn btn-danger" @click="flag=false">注册</button>
+        <login v-if="flag"></login>
+        <register v-else="flag"></register>
+    </div>
+    <template id="loginTemp">
+        <h3>Login Component</h3>
+    </template>
+    <template id="registerTemp">
+        <h3>Register Component</h3>
+    </template>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            },
+            components: {
+                login: {
+                    template: '#loginTemp'
+                },
+                register: {
+                    template: '#registerTemp'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

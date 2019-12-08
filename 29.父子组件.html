@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 每一个组件都是Vue实例 -->
+        <father></father>
+    </div>
+    <template id="fa">
+        <div>
+            <h3>{{ message }}</h3>
+            <button @click="show">显示</button>
+            <!-- 子组件只能父组件调用,在他地方无法直接调用子组件 -->
+            <child></child>
+        </div>
+    </template>
+    <template id="ch">
+        <h3>{{ message }}</h3>
+    </template>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            components: {
+                father: {
+                    template: '#fa',
+                    data() {
+                        return {
+                            message: '这是父组件的data'
+                        }
+                    },
+                    methods: {
+                        show() {
+                            alert("这是父组件的方法");
+                        }
+                    },
+                    //定义子组件
+                    components: {
+                        child: {
+                            template: '#ch',
+                            data() {
+                                return {
+                                    message: '这是子组件的data'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
