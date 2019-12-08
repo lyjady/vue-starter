@@ -48,6 +48,11 @@
                 },
                 afterEnter(el) {
                     //表示动画结束
+                    //Vue 把一个完整的动画使用钩子函数拆成了两个部分
+                    //使用flag标识符来表示动画的切换
+                    //flag = false -> true -> false 表示整个动画的生命周期,我们在第一次点击的时候由false变成了true,开始演示第一个半场动画
+                    //如果没有在afterEnter里面将flag设置成false,那么我们在第二次点击的时候会将true -> false演示第二场动画。这样就打不到我们想要的效果
+                    //只有在afterEnter中强制的将flag设置成false强行结束这个动画的生命周期,这样才能让再次点击的时候重新演示第一场动画而不是第二场
                     this.flag = !this.flag;
                 }
             }
