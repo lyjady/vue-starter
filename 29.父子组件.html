@@ -8,6 +8,7 @@
 <body>
     <div id="app">
         <!-- 每一个组件都是Vue实例 -->
+        <button @click="show">显示</button>
         <father></father>
     </div>
     <template id="fa">
@@ -24,6 +25,11 @@
     <script>
         const app = new Vue({
             el: '#app',
+            methods: {
+                show() {
+                    alert("这是实例里面的方法")
+                }
+            },
             components: {
                 father: {
                     template: '#fa',
