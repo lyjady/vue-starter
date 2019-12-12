@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件方法传递</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <input type="button" class="btn btn-primary" value="父组件的按钮" @click="show"/>
+        <hr>
+        <comp @func="show"></comp>
+    </div>
+    <template id="temp">
+        <div>
+            <input type="button" class="btn btn-primary" value="子组件的按钮" @click="child"/>
+        </div>
+    </template>
+    <script>
+        //子组件要想调用父组件的方法需要在子组件的标签上加上事件绑定机制v-on:xxx(@xxx)
+        //xxx是获取父组件方法的引用,再在子组件上加上点击事件在点击事件内调用this.$emit(xxx)就能调用了
+        //如果想要传递参数那么可以写成这样的形式this.$emit(xxx, arg1, arg2,...) 这样变相的子组件向父组件传递数据,父组件拿到之后可以保存在data中
+        const app = new Vue({
+            el: '#app',
+            methods: {
+                show(data) {
+                    console.log("这是父组件的方法, 来自子组件的数据: " + data);
+                }
+            },
+            components: {
+                comp: {
+                    template: '#temp',
+                    methods: {
+                        child() {
+                            this.$emit('func', 1234);
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

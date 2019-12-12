@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件传值</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <comp :fa="message"></comp>
+    </div>
+    <template id="comp">
+        <div>
+            <h3>这是子组件---{{ fa }}</h3>
+        </div>
+    </template>
+    <script>
+        //如果子组件要使用父组件的数据那么需要在子组件的那个标签内加上属性绑定,绑定的属性就是父组件数据在子组件中的变量的名称
+        //绑定的值就是要传递的数据,和组件名称一样不支持驼峰是命名,需要用'-'来连接
+        //之后再子组件内定义props数组,内容是属性绑定的名称
+        //props是只读的能重新赋值
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: '父组件的数据'
+            },
+            components: {
+                comp: {
+                    template: '#comp',
+                    props: ['fa']
+                }
+            }
+        })
+    </script>
+</body>
+</html>

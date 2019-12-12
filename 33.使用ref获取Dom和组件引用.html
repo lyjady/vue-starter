@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用ref获取Dom和组件引用</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <h3 ref="h3">this is h3 tag</h3>
+        <input type="text" class="btn btn-primary" value="Dom" @click="dom">
+        <input type="text" class="btn btn-primary" value="Child" @click=child>
+        <comp ref="ch"></comp>
+    </div>
+    <template id="temp">
+        <div>
+            <h3>this is child h3 tag</h3>
+        </div>
+    </template>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            methods: {
+                dom() {
+                    //在标签上加上ref属性设置这个dom的'key',在vue实例中通过this.$refs.key来获取到原生的js对象
+                    console.log(this.$refs.h3.innerText);
+                },
+                child() {
+                    //ref能获取到dom中的数据同样也能获取到组件内的数据与方法,获取方式与dom一样
+                    console.log(this.$refs.ch.message);
+                    this.$refs.ch.show();
+                }   
+            },
+            components: {
+                comp: {
+                    template: '#temp',
+                    data() {
+                        return {
+                            message: 'child data'
+                        }
+                    },
+                    methods: {
+                        show() {
+                            console.log('child method')
+                        }
+                    }
+                },    
+            }
+        })
+    </script>
+</body>
+</html>

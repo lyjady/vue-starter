@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟评论</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人: {{ item.name }}</span>
+                {{ item.content }}
+            </li>
+        </ul>
+        <comment @load="loadComment"></comment>
+    </div>
+    <template id="comment-template">
+        <div>
+            <div class="form-group">
+                <label>评论人:</label>
+                <input type="text" class="form-control" v-model="name"/>
+            </div>
+
+            <div class="form-group">
+                <label>评论内容:</label>
+                <textarea class="form-control" v-model="content"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="button" value="发表" class="btn btn-primary" @click="postComment"/>
+            </div>
+        </div>
+    </template>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    {id: 1, name: '江泽民', content: '你们毕竟too young, too simple, somthing native'},
+                    {id: 2, name: '江泽民', content: '不要搞什么大新闻,把我批斗一番'},
+                    {id: 3, name: '江泽民', content: '闷声发大财'}
+                ]
+            },
+            methods: {
+                loadComment() {
+                    var commentList = JSON.parse(localStorage.getItem('comments') || '[]') ;
+                    console.log(commentList);
+                    this.list = commentList;
+                }
+            },
+            created() {
+                this.loadComment();
+            },
+            components: {
+                comment: {
+                    template: '#comment-template',
+                    data() {
+                        return {
+                            name: '',
+                            content: ''
+                        }
+                    },
+                    methods: {
+                        postComment() {
+                            const comment = {id: new Date(), name: this.name, content: this.content};
+                            //如果localStorage是null返回一个空数组
+                            var list = JSON.parse(localStorage.getItem('comments') || '[]') ;
+                            list.unshift(comment);
+                            localStorage.setItem('comments', JSON.stringify(list));
+                            //在添加之后调用父组件的loadComment方法,将评论加载到页面上去
+                            this.$emit('load');
+                        }   
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
