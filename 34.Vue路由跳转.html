@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue路由跳转</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        /* 
+            在使用router进行组件切换的时候, 点击指定的标签进行切换, 当显示点击指定标签出现的组件时, vue会给标签加上router-link-active这个类
+            那如果要实现点击标签 标签高亮那么,只要给这个类设置样式就行了
+        */
+        .router-link-active {
+            color: red;
+            font-size: larger;
+        }
+        
+        .vue-active {
+            color: skyblue;
+            font-size: larger;
+        }
+
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用a标签进行路由跳转的时候要加上#进行hash计算 -->
+        <!-- <a href="#/login">登录</a>
+        <a href="#/register">注册</a> -->
+
+        <!-- router-link会被渲染成一个a标签,to属性写要重定向到的页面,但是不用加上#前缀,在渲染时会自动加上去, tag是要渲染成的标签,默认是a标签 -->
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register" tag="span">注册</router-link>
+        <!-- 要使用动画来实现组件的切换,同样只要用transition标签将<router-view>这个标签给包裹起来 -->
+        <transition mode="out-in">
+            <!-- 用来展示路由要切换的对象,类似于一个占位符 -->
+            <router-view></router-view>
+        </transition>
+    </div>
+    <script>
+
+        const login = {
+            template: '<h3>登录</h3>'
+        };
+
+        const register = {
+            template: '<h3>注册</h3>'
+        };
+
+        //构造一个router实例,routes里面是路由匹配规则,path是匹配的路由路径,component是当匹配到了path之后要切换的组件模板对象,不能是名字引用
+        //routes可以匹配多个路由规则,router只能匹配一个路由规则
+        const router = new VueRouter({
+            routes: [
+                //路由重定向,当打开网页的时候路由路径是#/.所以把/重定向到/login这个path,这样打开页面就会直接展示login组件
+                {path:'/', redirect: '/login'},
+                {path: '/login', component: login},
+                {path: '/register', component: register}
+            ],
+            //可以自定义一个class,用来替换默认的router-link-active这个当点击标签的时候激活的class
+            linkActiveClass: 'vue-active'
+        });
+
+        const app = new Vue({
+            el: '#app',
+            //将路由对象注册到vue实例中
+            router: router
+        })
+    </script>
+</body>
+</html>
