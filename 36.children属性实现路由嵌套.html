@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>children属性实现路由嵌套切换</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <router-view></router-view>
+
+    </div>
+
+    <template id="temp">
+        <div>
+            <h1>这是Account组件</h1>
+            <router-link to="/account/login">登录</router-link>
+            <router-link to="/account/register">注册</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+
+    <script>
+        const account = {
+            template: "#temp"
+        }
+
+        const login = {
+            template: "<h3>登录</h3>"
+        }
+
+        const register = {
+            template: "<h3>注册</h3>"
+        }
+
+        //使用children属性可以实现在组件内部进行组件的路由切换
+        const router = new VueRouter({
+            routes: [{
+                    path: "/",
+                    component: account,
+                    children: [
+                        {
+                            path: "/account/login",
+                            component: login
+                        },
+                        {
+                            path: "/account/register",
+                            component: register
+                        }
+                    ]
+                },
+            ]
+        })
+
+        const app = new Vue({
+            el: '#app',
+            router: router
+        })
+    </script>
+</body>
+
+</html>

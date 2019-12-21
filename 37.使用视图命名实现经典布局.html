@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用视图命名实现经典布局</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        .header {
+            background-color: orange;
+            height: 80px;
+        }
+
+        .left {
+            background-color: rgb(0, 255, 21);
+            flex: 2;
+        }
+
+        .main {
+            background-color: rgb(0, 225, 255);
+            flex: 8;
+        }
+        
+        .container {
+            display: flex;
+            height: 1440px;
+        }
+
+        h1, html, body {
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+
+        <router-view name="header"></router-view>
+        <div class="container">
+            <!-- 只有在属性前有:时属性的内容时变量,没有:的话就是字符串 -->
+            <!-- 此时left main header时字符串,那么可以将router对象里面的命名也改成字符串 -->
+            <router-view name="left"></router-view>
+            <router-view name="main"></router-view>
+        </div>
+
+    </div>
+
+    <script>
+
+        const header = {
+            template: "<h1 class=header>Banner区域</h1>"
+        }
+
+        const left = {
+            template: "<h1 class=left>Left区域</h1>"
+        }
+
+        const main = {
+            template: "<h1 class=main>Main区域</h1>"
+        }
+
+        //当需要在/路径下显示多个组件时可以使用components属性指定线稿显示的组件
+        //为每个组件定义一个唯一的名称(名称自定义),然后再router-view标签中使用name引用之前定义组件的名称就能显示了
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/',
+                    components: {
+                        "header": header,
+                        "left": left,
+                        "main": main
+                    }
+                }
+            ]
+        })
+
+        const app = new Vue({
+            el: '#app',
+            router: router
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>keyup、watch、compouted</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>KeyUp</h1>
+        <input type="text" v-model="firstName" @keyup="name"> + 
+        <input type="text" v-model="lastName" @keyup="name"> =
+        <input type="text" v-model="fullName">
+        <hr/>
+        <h1>Watch</h1>
+        <input type="text" v-model="firstName"> + 
+        <input type="text" v-model="lastName"> =
+        <input type="text" v-model="fullName">
+        <hr/>
+        <h1>Compouted</h1>
+        <input type="text" v-model="firstName"> + 
+        <input type="text" v-model="lastName"> =
+        <input type="text" v-model="fullName">
+        <hr/>
+
+        <router-link to="/login">login</router-link>
+        <router-link to="/register">register</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+
+        const login = {
+            template: '<span>Login</span>'
+        }
+
+        const register = {
+            template: '<span>Register</span>'
+        }
+
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/login',
+                    component: login
+                },
+                {
+                    path: '/register',
+                    component: register
+                }
+            ]
+        })
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                firstName: '',
+                lastName: ''
+            },
+            methods: {
+                name() {
+                    this.fullName = this.firstName + '-' + this.lastName;
+                }
+            },
+            //这个属性能够监听data中指定数据的变化,然后出发watch中对应的function处理函数
+            //指定监听的属性,有两个可传递的参数newValue(新的数据), oldValue旧的数据
+            //写法:
+            //'监听的属性': function(newValue, oldValue) {...}
+            //监听的属性: function(newValue, oldValue) {...}
+            //监听的属性(newValue, oldValue) {...}
+            //watch还能监听非Dom元素的数据变化,比如路由的数据变化
+            watch: {
+                firstName(newValue, oldValue) {
+                    this.fullName = newValue + '-' + this.lastName;
+                },
+
+                lastName(newValue) {
+                    this.fullName = this.firstName + '-' + newValue;
+                },
+                '$route.path': function(newValue) {
+                    if(newValue === '/login') {
+                        console.log("login");
+                    } else {
+                        console.log("register");
+                    }
+                }
+            },
+            //computed用来返回蜀属性,只要方法体内的属性数据发生了改变就会执行该方法,并把属性返回回去
+            //属性会被缓存,如果多处应用该属性那么只会计算一次提高性能
+            //返回的属性不能在data中事先定义过否则会报错
+            //写法与watch一致
+            computed: {
+                fullName() {
+                    return this.firstName + '-' + this.lastName;
+                }
+            },
+            router: router
+        })
+        //keyup(methods): 方法表示一个具体的操作, 主要书写业务逻辑
+        //watch: 一个对象,键是需要观察的表达式。值是对应的回调函数。主要用来监听某些特定数据的变化, 从而进行某些具体的业务逻辑操作。可以看作是computed和methods的结合体
+        //computed: 属性的结果会被缓存,除非依赖的响应式属性发生了变化才会重新计算,主要当作属性来使用 
+    </script>
+</body>
+</html>

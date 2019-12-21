@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件中的传递</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <child :data="message" @func="show"></child>
+    </div>
+    
+    <template id="temp">
+        <div>
+            <h1>这是子组件 --- {{ data }}</h1>
+            <input type="button" value="传递" @click="tranfer"/>    
+        </div>
+    </template>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: '这是父组件的数据'
+            },
+            methods: {
+                show(data) {
+                    console.log(data);
+                }
+            },
+            components: {
+                child: {
+                    template: '#temp',
+                    data() {
+                        return {
+                            message: '这是子组件的数据'
+                        }
+                    },
+                    props: ['data'],
+                    methods: {
+                        tranfer() {
+                            this.$emit('func', this.message);
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
