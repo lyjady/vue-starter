@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b1b5695-946e-40e1-b08d-11708858a5ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/40.使用视图命名实现经典布局.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/37.使用视图命名实现经典布局.html" beforeDir="false" afterPath="$PROJECT_DIR$/37.使用视图命名实现经典布局.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/40.使用视图命名实现经典布局.html" beforeDir="false" afterPath="$PROJECT_DIR$/40.使用视图命名实现经典布局.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +103,7 @@
       <workItem from="1575809727999" duration="10000" />
       <workItem from="1576502962666" duration="133000" />
       <workItem from="1576921340622" duration="55000" />
-      <workItem from="1576924672829" duration="1270000" />
+      <workItem from="1576924672829" duration="2010000" />
     </task>
     <task id="LOCAL-00001" summary="更新代码">
       <created>1574171461085</created>
@@ -184,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576921383704</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="更新代码">
+      <created>1576926105499</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1576926105499</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,18 +222,18 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="960" y="426" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1575032690044" />
-    <state x="878" y="206" key="CommitChangelistDialog2" timestamp="1576921383328">
+    <state x="878" y="206" key="CommitChangelistDialog2" timestamp="1576926105125">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="878" y="206" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1576921383328" />
+    <state x="878" y="206" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1576926105125" />
     <state x="781" y="342" key="SettingsEditor" timestamp="1576924765129">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="781" y="342" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1576924765129" />
-    <state x="872" y="429" key="Vcs.Push.Dialog.v2" timestamp="1576921385041">
+    <state x="872" y="429" key="Vcs.Push.Dialog.v2" timestamp="1576926107566">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="872" y="429" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1576921385041" />
+    <state x="872" y="429" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1576926107566" />
     <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1575789863922">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
