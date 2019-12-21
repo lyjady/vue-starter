@@ -41,6 +41,15 @@
             border-bottom: 1px solid #ccc;
             line-height: 45px;
         }
+
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateX(3000px);
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -55,7 +64,10 @@
             </div>
             <!-- 只有在属性前有:时属性的内容时变量,没有:的话就是字符串 -->
             <!-- 此时left main header时字符串,那么可以将router对象里面的命名也改成字符串 -->
-            <router-view></router-view>
+            <transition mode="out-in">
+                <router-view></router-view>
+            </transition>
+
         </div>
 
     </div>
